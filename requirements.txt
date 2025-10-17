@@ -1,3 +1,9 @@
+# Deep Learning Framework (GPU with CUDA 12.4)
+# Install with: conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
 # Image processing
 scikit-image>=0.19.0
 opencv-python>=4.5.1
