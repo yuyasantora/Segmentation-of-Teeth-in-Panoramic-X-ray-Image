@@ -21,20 +21,25 @@ def convert_one_channel(img):
     
 def pre_images(resize_shape,path,include_zip):
     if include_zip==True:
-        ZipFile(path+"/DentalPanoramicXrays.zip").extractall(path) 
+        # Extract outer ZIP (hxt48yk462-1.zip)
+        ZipFile(path+"/hxt48yk462-1.zip").extractall(path)
+        # Extract inner ZIP (DentalPanoramicXrays.zip)
+        ZipFile(path+"/DentalPanoramicXrays.zip").extractall(path)
         path=path+'/Images/'
     dirs=natsorted(os.listdir(path))
     sizes=np.zeros([len(dirs),2])
-    images=img=Image.open(path+dirs[0])
-    sizes[0,:]=images.size
-    images=(images.resize((resize_shape),Image.ANTIALIAS))
-    images=convert_one_channel(np.asarray(images))
-    for i in range (1,len(dirs)):
+
+    # Pre-allocate list for efficiency
+    images_list = []
+
+    for i in range(len(dirs)):
         img=Image.open(path+dirs[i])
         sizes[i,:]=img.size
-        img=img.resize((resize_shape),Image.ANTIALIAS)
+        img=img.resize((resize_shape),Image.LANCZOS)
         img=convert_one_channel(np.asarray(img))
-        images=np.concatenate((images,img))
+        images_list.append(img)
+
+    images=np.stack(images_list, axis=0)
     images=np.reshape(images,(len(dirs),resize_shape[0],resize_shape[1],1))
     return images,sizes
 

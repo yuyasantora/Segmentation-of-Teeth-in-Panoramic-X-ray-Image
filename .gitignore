@@ -1,0 +1,13 @@
+# Data關係
+Data/
+Custom_Masks/
+Original_Masks/
+
+# repomix
+repomix-output.xml
+
+# モデルの重み
+*.pth
+
+# pycache
+__pycache__/
